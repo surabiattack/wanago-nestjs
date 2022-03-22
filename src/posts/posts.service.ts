@@ -1,5 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { Post } from './post.interface';
+import { CreatePostDto } from './dto/createPost.dto';
+import { UpdatePostDto } from './dto/updatePost.dto';
 
 @Injectable()
 export class PostsService {
@@ -41,7 +43,7 @@ export class PostsService {
   deletePost(id: number) {
     const postIndex = this.posts.findIndex((post) => post.id === id);
     if (postIndex > -1) {
-      this.posts.slice(postIndex, 1);
+      this.posts.splice(postIndex, 1);
     } else {
       throw new HttpException('Post not found', HttpStatus.NOT_FOUND);
     }
