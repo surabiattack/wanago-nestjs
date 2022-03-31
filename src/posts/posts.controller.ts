@@ -6,12 +6,15 @@ import {
   Param,
   Post,
   Put,
+  UseFilters,
   UseGuards,
 } from '@nestjs/common';
 import { PostsService } from './posts.service';
 import { CreatePostDto } from './dto/createPost.dto';
 import { UpdatePostDto } from './dto/updatePost.dto';
 import JwtAuthenticationGuard from 'src/authentication/jwt-authentication.guard';
+import { ExceptionLoggerFilter } from 'src/utils/exceptionsLogger.filter';
+import FindOneParams from 'src/utils/findOneParams';
 
 @Controller('posts')
 export class PostsController {
@@ -23,7 +26,8 @@ export class PostsController {
   }
 
   @Get(':id')
-  getPostById(@Param('id') id: string) {
+  @UseFilters(ExceptionLoggerFilter)
+  getPostById(@Param() { id }: FindOneParams) {
     return this.postService.getPostById(Number(id));
   }
 
