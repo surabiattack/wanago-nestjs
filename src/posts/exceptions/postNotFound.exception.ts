@@ -5,3 +5,5 @@ class PostNotFoundException extends NotFoundException {
     super(`Post with id ${postId} not found`);
   }
 }
+
+export default PostNotFoundException;
