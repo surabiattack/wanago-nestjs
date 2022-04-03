@@ -1,5 +1,5 @@
-import { ValidationPipe } from '@nestjs/common';
-import { HttpAdapterHost, NestFactory } from '@nestjs/core';
+import { ClassSerializerInterceptor, ValidationPipe } from '@nestjs/common';
+import { HttpAdapterHost, NestFactory, Reflector } from '@nestjs/core';
 import * as cookieParser from 'cookie-parser';
 import { AppModule } from './app.module';
 import { ExceptionLoggerFilter } from './utils/exceptionsLogger.filter';
@@ -11,7 +11,7 @@ async function bootstrap() {
   // app.useGlobalFilters(new ExceptionLoggerFilter(httpAdapter));
 
   app.useGlobalPipes(new ValidationPipe({ skipMissingProperties: true }));
-
+  app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
   app.use(cookieParser());
   await app.listen(3000, () => {
     console.log('application start on port = ', 3000);
